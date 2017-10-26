@@ -5,17 +5,25 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Product;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/product/{id}", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction($id,Request $request)
     {
-        // replace this example code with whatever you need
+        $product = $this->getDoctrine()->getManager()
+            ->getRepository(Product::class)
+            ->findBy(array(), array('id' => 'DESC'),12);
+
+
+//        $product_atr = json_decode($json = $product->additionalData);
+
         return $this->render('default/nav_bar.html.twig',array(
-            'base_dir' => 'base'
+//            'product_json' => $product_atr,
+            'products' => $product,
         ));
     }
 }
